@@ -74,6 +74,13 @@ import siteConfig from '../config/site.json';
     if (copyButton) {
       copyButton.addEventListener('click', async function() {
         const contractAddress = this.getAttribute('data-contract');
+        
+        // Check if contractAddress is not null before proceeding
+        if (!contractAddress) {
+          console.error('Contract address not found');
+          return;
+        }
+        
         try {
           await navigator.clipboard.writeText(contractAddress);
           

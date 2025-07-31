@@ -1,15 +1,28 @@
 name: Deploy to Vercel
 
 on:
-  push:
-    branches: [ main, master ]
   workflow_dispatch:
+  # Uncomment the lines below after setting up secrets:
+  # push:
+  #   branches: [ main, master ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
+      - name: Check secrets
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "❌ VERCEL_TOKEN secret is not set"
+            echo "Please add the required secrets in repository settings:"
+            echo "- VERCEL_TOKEN"
+            echo "- VERCEL_PROJECT_ID"
+            echo "- VERCEL_ORG_ID"
+            exit 1
+          fi
+          echo "✅ Secrets are configured"
+
       - name: Checkout code
         uses: actions/checkout@v4
         

@@ -1,0 +1,97 @@
+---
+import siteConfig from '../config/site.json';
+---
+
+<section id="roadmap" class="py-20 px-4">
+  <div class="container mx-auto max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">
+        {siteConfig.roadmap.title}
+      </h2>
+      <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+        Our journey to the moon is carefully planned. Here's what we're building together.
+      </p>
+    </div>
+
+    <div class="relative">
+      <!-- Timeline Line -->
+      <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-primary-500 via-secondary-500 to-primary-500 rounded-full hidden lg:block"></div>
+
+      <div class="space-y-12 lg:space-y-24">
+        {siteConfig.roadmap.phases.map((phase, index) => (
+          <div class={`flex flex-col lg:flex-row items-center gap-8 ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
+            <!-- Timeline Node -->
+            <div class="relative lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2 z-10">
+              <div class={`w-16 h-16 rounded-full border-4 flex items-center justify-center font-bold text-lg
+                ${phase.status === 'completed' ? 'bg-green-500 border-green-400 text-white' : 
+                  phase.status === 'current' ? 'bg-gradient-to-br from-primary-500 to-secondary-500 border-primary-400 text-white animate-pulse' : 
+                  'bg-gray-700 border-gray-600 text-gray-400'}`}>
+                {index + 1}
+              </div>
+              
+              <!-- Status Badge -->
+              <div class={`absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide
+                ${phase.status === 'completed' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 
+                  phase.status === 'current' ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30' : 
+                  'bg-gray-700/20 text-gray-400 border border-gray-600/30'}`}>
+                {phase.status === 'completed' ? 'Completed' : phase.status === 'current' ? 'In Progress' : 'Upcoming'}
+              </div>
+            </div>
+
+            <!-- Content Card -->
+            <div class={`flex-1 ${index % 2 === 0 ? 'lg:pr-16' : 'lg:pl-16'}`}>
+              <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:border-primary-500/50 transition-all duration-300 transform hover:scale-105">
+                <!-- Phase Header -->
+                <div class="mb-6">
+                  <div class="text-sm text-primary-400 font-bold uppercase tracking-wide mb-2">{phase.phase}</div>
+                  <h3 class="text-2xl md:text-3xl font-black text-white mb-3">{phase.title}</h3>
+                </div>
+
+                <!-- Phase Items -->
+                <div class="space-y-3">
+                  {phase.items.map((item) => (
+                    <div class="flex items-center gap-3">
+                      <div class={`w-2 h-2 rounded-full flex-shrink-0
+                        ${phase.status === 'completed' ? 'bg-green-400' : 
+                          phase.status === 'current' ? 'bg-primary-400' : 
+                          'bg-gray-500'}`}>
+                      </div>
+                      <span class="text-gray-300">{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <!-- Progress Bar (for current phase) -->
+                {phase.status === 'current' && (
+                  <div class="mt-6">
+                    <div class="flex justify-between text-sm text-gray-400 mb-2">
+                      <span>Progress</span>
+                      <span>75%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                      <div class="bg-gradient-to-r from-primary-500 to-secondary-500 h-2 rounded-full w-3/4 animate-pulse"></div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-16">
+      <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+        <h3 class="text-2xl font-bold text-white mb-4">Join Our Journey</h3>
+        <p class="text-gray-400 mb-6">Be part of the community that's building the future of memecoins</p>
+        <a 
+          href="#social" 
+          class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full hover:from-primary-600 hover:to-secondary-600 transition-all duration-300 transform hover:scale-105"
+        >
+          Join Community
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

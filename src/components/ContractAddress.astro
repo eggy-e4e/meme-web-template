@@ -1,0 +1,98 @@
+---
+import siteConfig from '../config/site.json';
+---
+
+<section id="contract" class="py-20 px-4">
+  <div class="container mx-auto max-w-4xl">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">
+        Contract Address
+      </h2>
+      <p class="text-xl text-gray-400">
+        Official {siteConfig.token.name} smart contract on {siteConfig.token.network}
+      </p>
+    </div>
+
+    <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-2xl">
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+        <!-- Contract Address Display -->
+        <div class="flex-1 min-w-0">
+          <div class="text-sm text-gray-400 uppercase tracking-wide mb-2">Contract Address</div>
+          <div class="font-mono text-lg md:text-xl text-white break-all bg-black/30 rounded-xl p-4 border border-white/10">
+            {siteConfig.token.contractAddress}
+          </div>
+        </div>
+
+        <!-- Copy Button -->
+        <div class="flex flex-col gap-3">
+          <button 
+            id="copyButton"
+            class="group relative inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl hover:from-primary-600 hover:to-secondary-600 transition-all duration-300 transform hover:scale-105"
+            data-contract="{siteConfig.token.contractAddress}"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            Copy Address
+          </button>
+
+          <a 
+            href={`https://etherscan.io/address/${siteConfig.token.contractAddress}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white border-2 border-white/30 rounded-xl hover:border-primary-500 hover:bg-primary-500/10 transition-all duration-300"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+            View on Etherscan
+          </a>
+        </div>
+      </div>
+
+      <!-- Warning Notice -->
+      <div class="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+        <div class="flex items-start gap-3">
+          <svg class="w-6 h-6 text-yellow-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+          <div>
+            <div class="text-yellow-500 font-semibold mb-1">Important Notice</div>
+            <div class="text-sm text-gray-300">
+              Always verify the contract address before making any transactions. Beware of fake tokens with similar names.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const copyButton = document.getElementById('copyButton');
+    if (copyButton) {
+      copyButton.addEventListener('click', async function() {
+        const contractAddress = this.getAttribute('data-contract');
+        try {
+          await navigator.clipboard.writeText(contractAddress);
+          
+          // Update button text temporarily
+          const originalText = this.innerHTML;
+          this.innerHTML = `
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Copied!
+          `;
+          
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy: ', err);
+        }
+      });
+    }
+  });
+</script>

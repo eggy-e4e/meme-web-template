@@ -57,13 +57,16 @@ import config from '../config/site.json';
   <main class="pt-16 min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <!-- Mascot Image -->
-      <div class="mb-8">
-        <img 
-          src={config.token.mascotImage} 
-          alt={config.token.name}
+      <figure class="mb-8">
+        <img
+          src={config.token.mascotImage}
+          alt={`${config.token.name} mascot - viral meme coin logo`}
+          width="256"
+          height="256"
           class="w-48 h-48 sm:w-64 sm:h-64 mx-auto rounded-full object-cover shadow-2xl border-4 border-orange-500 animate-pulse"
+          loading="eager"
         />
-      </div>
+      </figure>
       
       <!-- Token Name -->
       <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black text-white mb-4 tracking-tight">
@@ -76,20 +79,24 @@ import config from '../config/site.json';
       </p>
       
       <!-- Contract Address - MAIN FOCAL POINT -->
-      <div class="bg-gray-800 rounded-2xl p-8 mb-12 border-2 border-orange-500 shadow-2xl">
-        <h2 class="text-2xl font-bold text-orange-400 mb-4">CONTRACT ADDRESS</h2>
+      <section class="bg-gray-800 rounded-2xl p-8 mb-12 border-2 border-orange-500 shadow-2xl" aria-labelledby="contract-heading">
+        <h2 id="contract-heading" class="text-2xl font-bold text-orange-400 mb-4">CONTRACT ADDRESS</h2>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <code class="text-lg sm:text-xl font-mono text-white bg-gray-900 px-6 py-4 rounded-lg border border-gray-700 break-all">
+          <code
+            class="text-lg sm:text-xl font-mono text-white bg-gray-900 px-6 py-4 rounded-lg border border-gray-700 break-all"
+            aria-label={`Contract address: ${config.token.contractAddress}`}
+          >
             {config.token.contractAddress}
           </code>
-          <button 
+          <button
             onclick={`copyToClipboard('${config.token.contractAddress}')`}
             class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+            aria-label="Copy contract address to clipboard"
           >
             Copy Address
           </button>
         </div>
-      </div>
+      </section>
       
       <!-- Buy CTA -->
       <a 

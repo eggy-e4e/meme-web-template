@@ -7,6 +7,18 @@ export default defineConfig({
   site: 'https://example.pump.fun',
   compressHTML: true,
   build: {
-    inlineStylesheets: 'auto'
+    inlineStylesheets: 'auto',
+    assets: 'assets'
+  },
+  vite: {
+    build: {
+      cssMinify: true,
+      minify: 'terser',
+      rollupOptions: {
+        output: {
+          manualChunks: undefined
+        }
+      }
+    }
   }
 });

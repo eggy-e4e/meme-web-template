@@ -6,7 +6,35 @@ export interface Props {
   description?: string;
 }
 
-const { title = config.token.name, description = config.token.tagline } = Astro.props;
+const {
+  title = `${config.token.name} | New Meme Coin 2025 | Buy on Pump.fun`,
+  description = `${config.token.tagline} - Buy ${config.token.name} meme coin on pump.fun. Viral token trending 2025. Join the crypto meme revolution!`
+} = Astro.props;
+
+// SEO Keywords
+const keywords = `${config.token.name}, meme coin, pump.fun, viral token, crypto meme, trending coin 2025, ${config.token.name.toLowerCase()}, memecoin, cryptocurrency, defi, solana meme`;
+
+// Structured Data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": config.token.name,
+  "description": config.token.tagline,
+  "url": Astro.site?.toString() || "https://example.com",
+  "logo": config.token.mascotImage,
+  "sameAs": [
+    config.social.twitter,
+    config.social.telegram,
+    config.social.discord
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "availableLanguage": "English"
+  },
+  "additionalType": "https://schema.org/FinancialProduct",
+  "category": "Cryptocurrency"
+};
 ---
 
 <!DOCTYPE html>
@@ -14,34 +42,58 @@ const { title = config.token.name, description = config.token.tagline } = Astro.
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content={config.token.name} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    
+
     <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <link rel="canonical" href={Astro.url} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content={new URL(config.token.mascotImage, Astro.url)} />
+    <meta property="og:image:alt" content={`${config.token.name} mascot`} />
+    <meta property="og:site_name" content={config.token.name} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={Astro.url} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(config.token.mascotImage, Astro.url)} />
+    <meta name="twitter:image:alt" content={`${config.token.name} mascot`} />
+    <meta name="twitter:creator" content="@pumpdotfun" />
 
-    <!-- Fonts -->
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#ff6b35" />
+    <meta name="msapplication-TileColor" content="#ff6b35" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+    <!-- Preload critical resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    
-    <title>{title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="preload" href={config.token.mascotImage} as="image" />
   </head>
   <body class="bg-gray-900 text-white font-inter antialiased min-h-screen">
     <slot />
 
     <!-- Copy to clipboard script -->
-    <script>
+    <script is:inline>
       function copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(() => {
           // Show success feedback
-          const button = event.target.closest('button');
+          const button = window.event.target.closest('button');
           const originalText = button.textContent;
           button.textContent = 'Copied!';
           button.classList.add('bg-green-500');

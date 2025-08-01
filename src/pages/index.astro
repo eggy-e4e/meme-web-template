@@ -1,53 +1,71 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Twitter, MessageCircle, Users } from 'lucide-astro';
+import { Twitter, Copy } from 'lucide-astro';
 import config from '../config/site.json';
+import { getColorPalette, generateCSSVariables } from '../utils/colorPalettes.js';
+
+// Get the selected color palette
+const palette = getColorPalette(config.colorPalette);
+const cssVariables = generateCSSVariables(palette);
 ---
 
 <Layout title={config.token.name} description={config.token.tagline}>
+  <!-- Dynamic Color Palette CSS -->
+  <style set:html={cssVariables}></style>
+
   <!-- Header -->
   <header class="fixed top-0 w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <!-- Logo/Mascot -->
         <div class="flex items-center space-x-3">
-          <img 
-            src={config.token.mascotImage} 
+          <img
+            src={config.token.mascotImage}
             alt={config.token.name}
-            class="w-10 h-10 rounded-full object-cover"
+            class="w-10 h-10 rounded-full object-cover border-2"
+            style="border-color: var(--color-primary);"
           />
           <span class="text-xl font-bold text-white">{config.token.name}</span>
         </div>
         
         <!-- Social Icons -->
         <div class="flex items-center space-x-4">
-          <a 
-            href={config.social.twitter} 
-            target="_blank" 
+          <a
+            href={config.social.twitter}
+            target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-400 hover:text-blue-400 transition-colors"
-            aria-label="Twitter"
+            class="text-gray-400 transition-colors"
+            style="color: var(--color-text); opacity: 0.7;"
+            onmouseover="this.style.color = 'var(--color-primary)'; this.style.opacity = '1';"
+            onmouseout="this.style.color = 'var(--color-text)'; this.style.opacity = '0.7';"
+            aria-label="Follow on X (Twitter)"
           >
             <Twitter size={20} />
           </a>
-          <a 
-            href={config.social.telegram} 
-            target="_blank" 
+          <!-- Telegram - commented out for now -->
+          <!--
+          <a
+            href={config.social.telegram}
+            target="_blank"
             rel="noopener noreferrer"
             class="text-gray-400 hover:text-blue-500 transition-colors"
-            aria-label="Telegram"
+            aria-label="Join Telegram"
           >
             <MessageCircle size={20} />
           </a>
-          <a 
-            href={config.social.discord} 
-            target="_blank" 
+          -->
+          <!-- Discord - commented out for now -->
+          <!--
+          <a
+            href={config.social.discord}
+            target="_blank"
             rel="noopener noreferrer"
             class="text-gray-400 hover:text-indigo-400 transition-colors"
-            aria-label="Discord"
+            aria-label="Join Discord"
           >
             <Users size={20} />
           </a>
+          -->
         </div>
       </div>
     </div>
@@ -61,49 +79,57 @@ import config from '../config/site.json';
         <img
           src={config.token.mascotImage}
           alt={`${config.token.name} mascot - viral meme coin logo`}
-          width="256"
-          height="256"
-          class="w-48 h-48 sm:w-64 sm:h-64 mx-auto rounded-full object-cover shadow-2xl border-4 border-orange-500 animate-pulse"
+          width="200"
+          height="200"
+          class="w-48 h-48 sm:w-64 sm:h-64 mx-auto rounded-full object-cover shadow-2xl border-4 animate-pulse"
+          style="border-color: var(--color-primary);"
           loading="eager"
         />
       </figure>
       
       <!-- Token Name -->
-      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black text-white mb-4 tracking-tight">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-4 tracking-tight">
         {config.token.name}
       </h1>
       
       <!-- Tagline -->
-      <p class="text-xl sm:text-2xl lg:text-3xl text-gray-300 mb-12 font-medium">
+      <p class="text-xl sm:text-2xl lg:text-3xl text-gray-300 mb-6 font-medium">
         {config.token.tagline}
       </p>
       
       <!-- Contract Address - MAIN FOCAL POINT -->
-      <section class="bg-gray-800 rounded-2xl p-8 mb-12 border-2 border-orange-500 shadow-2xl" aria-labelledby="contract-heading">
-        <h2 id="contract-heading" class="text-2xl font-bold text-orange-400 mb-4">CONTRACT ADDRESS</h2>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <section class="bg-gray-800 rounded-2xl p-8 mb-6 border-2 shadow-2xl" style="border-color: var(--color-primary);" aria-labelledby="contract-heading">
+        <h2 id="contract-heading" class="text-2xl font-bold mb-4" style="color: var(--color-primary);">CONTRACT ADDRESS</h2>
+        <div class="flex items-center justify-center gap-3">
           <code
-            class="text-lg sm:text-xl font-mono text-white bg-gray-900 px-6 py-4 rounded-lg border border-gray-700 break-all"
+            class="text-lg sm:text-xl font-mono text-white bg-gray-900 px-6 py-4 rounded-lg border border-gray-700 break-all flex-1 max-w-md"
             aria-label={`Contract address: ${config.token.contractAddress}`}
           >
             {config.token.contractAddress}
           </code>
           <button
             onclick={`copyToClipboard('${config.token.contractAddress}')`}
-            class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+            class="transition-colors p-2"
+            style="color: var(--color-primary);"
+            onmouseover="this.style.color = 'var(--color-hover)';"
+            onmouseout="this.style.color = 'var(--color-primary)';"
             aria-label="Copy contract address to clipboard"
+            title="Copy to clipboard"
           >
-            Copy Address
+            <Copy size={24} />
           </button>
         </div>
       </section>
       
       <!-- Buy CTA -->
-      <a 
+      <a
         href={config.pumpFun.buyUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-block bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-black text-2xl py-6 px-12 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl"
+        class="inline-block text-white font-black text-2xl py-6 px-12 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl"
+        style={`background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));`}
+        onmouseover={`this.style.background = 'linear-gradient(135deg, var(--color-hover), var(--color-accent))';`}
+        onmouseout={`this.style.background = 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))';`}
       >
         🚀 BUY ON PUMP.FUN 🚀
       </a>
@@ -111,7 +137,7 @@ import config from '../config/site.json';
   </main>
 
   <!-- Minimal Footer -->
-  <footer class="bg-gray-800 border-t border-gray-700 py-8">
+  <footer class="bg-gray-800 border-t border-gray-700 py-4">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row justify-between items-center">
         <p class="text-gray-400 text-sm mb-4 sm:mb-0">
@@ -119,31 +145,43 @@ import config from '../config/site.json';
         </p>
         
         <!-- Social Links -->
-        <div class="flex items-center space-x-6">
-          <a 
-            href={config.social.twitter} 
-            target="_blank" 
+        <div class="flex items-center space-x-4">
+          <a
+            href={config.social.twitter}
+            target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-400 hover:text-blue-400 transition-colors text-sm"
+            class="text-gray-400 transition-colors"
+            style="color: var(--color-text); opacity: 0.7;"
+            onmouseover="this.style.color = 'var(--color-primary)'; this.style.opacity = '1';"
+            onmouseout="this.style.color = 'var(--color-text)'; this.style.opacity = '0.7';"
+            aria-label="Follow on X (Twitter)"
           >
-            Twitter
+            <Twitter size={18} />
           </a>
-          <a 
-            href={config.social.telegram} 
-            target="_blank" 
+          <!-- Telegram - commented out for now -->
+          <!--
+          <a
+            href={config.social.telegram}
+            target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-400 hover:text-blue-500 transition-colors text-sm"
+            class="text-gray-400 hover:text-blue-500 transition-colors"
+            aria-label="Join Telegram"
           >
-            Telegram
+            <MessageCircle size={18} />
           </a>
-          <a 
-            href={config.social.discord} 
-            target="_blank" 
+          -->
+          <!-- Discord - commented out for now -->
+          <!--
+          <a
+            href={config.social.discord}
+            target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-400 hover:text-indigo-400 transition-colors text-sm"
+            class="text-gray-400 hover:text-indigo-400 transition-colors"
+            aria-label="Join Discord"
           >
-            Discord
+            <Users size={18} />
           </a>
+          -->
         </div>
       </div>
     </div>

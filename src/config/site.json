@@ -15,14 +15,7 @@
     "metaTitle": "[TOKEN_NAME] | New Meme Coin 2025 | Buy on Pump.fun",
     "metaDescription": "[CATCHY_TAGLINE] - Buy [TOKEN_NAME] meme coin on pump.fun. Viral token trending 2025. Join the crypto meme revolution!"
   },
-  "theme": {
-    "primary": "#ff6b35",
-    "secondary": "#f7931e",
-    "accent": "#00d4ff",
-    "background": "#0a0a0a",
-    "surface": "#1a1a1a",
-    "text": "#ffffff"
-  },
+  "colorPalette": "ocean",
   "pumpFun": {
     "buyUrl": "https://pump.fun/[CONTRACT_ADDRESS]"
   }

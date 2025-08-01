@@ -15,8 +15,20 @@ A minimal, fast-loading, mobile-first website template for pump.fun memecoins. B
 
 1. **Clone this template**
 2. **Edit `src/config/site.json`** with your token details
-3. **Add your mascot image** to `/public/` folder
-4. **Deploy** to Vercel, Netlify, or any static host
+3. **Choose a color palette** (fire, ocean, forest, purple, gold, neon)
+4. **Add your mascot image** to `/public/` folder
+5. **Deploy** to Vercel, Netlify, or any static host
+
+## 🎨 Color Palettes
+
+Choose from 6 pre-built color themes by setting `colorPalette` in your config:
+
+- **fire** - Orange/Red (default) 🔥
+- **ocean** - Blue/Cyan 🌊
+- **forest** - Green/Lime 🌲
+- **purple** - Purple/Pink 💜
+- **gold** - Yellow/Gold ⭐
+- **neon** - Pink/Cyan ⚡
 
 ---
 

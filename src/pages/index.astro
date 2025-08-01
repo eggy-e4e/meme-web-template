@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Twitter, Copy } from 'lucide-astro';
+import { Copy } from 'lucide-astro';
+import XIcon from '../components/XIcon.astro';
 import config from '../config/site.json';
 import { getColorPalette, generateCSSVariables } from '../utils/colorPalettes.js';
 
@@ -40,7 +41,7 @@ const cssVariables = generateCSSVariables(palette);
             onmouseout="this.style.color = 'var(--color-text)'; this.style.opacity = '0.7';"
             aria-label="Follow on X (Twitter)"
           >
-            <Twitter size={20} />
+            <XIcon size={20} />
           </a>
           <!-- Telegram - commented out for now -->
           <!--
@@ -141,7 +142,7 @@ const cssVariables = generateCSSVariables(palette);
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row justify-between items-center">
         <p class="text-gray-400 text-sm mb-4 sm:mb-0">
-          © 2024 {config.token.name}. All rights reserved.
+          © 2025 {config.token.name}. All rights reserved.
         </p>
         
         <!-- Social Links -->
@@ -156,7 +157,7 @@ const cssVariables = generateCSSVariables(palette);
             onmouseout="this.style.color = 'var(--color-text)'; this.style.opacity = '0.7';"
             aria-label="Follow on X (Twitter)"
           >
-            <Twitter size={18} />
+            <XIcon size={18} />
           </a>
           <!-- Telegram - commented out for now -->
           <!--

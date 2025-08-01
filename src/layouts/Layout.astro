@@ -1,12 +1,12 @@
 ---
-import siteConfig from '../config/site.json';
+import config from '../config/site.json';
 
 export interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = siteConfig.site.title, description = siteConfig.site.description } = Astro.props;
+const { title = config.token.name, description = config.token.tagline } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -18,19 +18,13 @@ const { title = siteConfig.site.title, description = siteConfig.site.description
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={siteConfig.site.url} />
+    <!-- SEO Meta Tags -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${siteConfig.site.url}/og-image.jpg`} />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={siteConfig.site.url} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={`${siteConfig.site.url}/og-image.jpg`} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,43 +33,29 @@ const { title = siteConfig.site.title, description = siteConfig.site.description
     
     <title>{title}</title>
   </head>
-  <body class="bg-gray-900 text-white font-body overflow-x-hidden">
+  <body class="bg-gray-900 text-white font-inter antialiased min-h-screen">
     <slot />
-    
-    <!-- Background Effects -->
-    <div class="fixed inset-0 -z-10">
-      <div class="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-gray-900 to-orange-900/20"></div>
-      <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
-      <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary-500/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
-    </div>
+
+    <!-- Copy to clipboard script -->
+    <script>
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+          // Show success feedback
+          const button = event.target.closest('button');
+          const originalText = button.textContent;
+          button.textContent = 'Copied!';
+          button.classList.add('bg-green-500');
+          setTimeout(() => {
+            button.textContent = originalText;
+            button.classList.remove('bg-green-500');
+          }, 2000);
+        });
+      }
+
+      // Make function globally available
+      window.copyToClipboard = copyToClipboard;
+    </script>
   </body>
 </html>
 
-<style is:global>
-  html {
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-  
-  body {
-    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-    min-height: 100vh;
-  }
-  
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: #1a1a2e;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #ed56ff, #f97316);
-    border-radius: 4px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #d934f7, #ea580c);
-  }
-</style>
+

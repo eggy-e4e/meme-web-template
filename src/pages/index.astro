@@ -1,21 +1,144 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import ContractAddress from '../components/ContractAddress.astro';
-import Tokenomics from '../components/Tokenomics.astro';
-import Roadmap from '../components/Roadmap.astro';
-import SocialLinks from '../components/SocialLinks.astro';
-import Footer from '../components/Footer.astro';
-import siteConfig from '../config/site.json';
+import { Twitter, MessageCircle, Users } from 'lucide-astro';
+import config from '../config/site.json';
 ---
 
-<Layout title={siteConfig.site.title} description={siteConfig.site.description}>
-  <main>
-    <Hero />
-    <ContractAddress />
-    <Tokenomics />
-    <Roadmap />
-    <SocialLinks />
-    <Footer />
+<Layout title={config.token.name} description={config.token.tagline}>
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo/Mascot -->
+        <div class="flex items-center space-x-3">
+          <img 
+            src={config.token.mascotImage} 
+            alt={config.token.name}
+            class="w-10 h-10 rounded-full object-cover"
+          />
+          <span class="text-xl font-bold text-white">{config.token.name}</span>
+        </div>
+        
+        <!-- Social Icons -->
+        <div class="flex items-center space-x-4">
+          <a 
+            href={config.social.twitter} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-blue-400 transition-colors"
+            aria-label="Twitter"
+          >
+            <Twitter size={20} />
+          </a>
+          <a 
+            href={config.social.telegram} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-blue-500 transition-colors"
+            aria-label="Telegram"
+          >
+            <MessageCircle size={20} />
+          </a>
+          <a 
+            href={config.social.discord} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-indigo-400 transition-colors"
+            aria-label="Discord"
+          >
+            <Users size={20} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="pt-16 min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <!-- Mascot Image -->
+      <div class="mb-8">
+        <img 
+          src={config.token.mascotImage} 
+          alt={config.token.name}
+          class="w-48 h-48 sm:w-64 sm:h-64 mx-auto rounded-full object-cover shadow-2xl border-4 border-orange-500 animate-pulse"
+        />
+      </div>
+      
+      <!-- Token Name -->
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black text-white mb-4 tracking-tight">
+        {config.token.name}
+      </h1>
+      
+      <!-- Tagline -->
+      <p class="text-xl sm:text-2xl lg:text-3xl text-gray-300 mb-12 font-medium">
+        {config.token.tagline}
+      </p>
+      
+      <!-- Contract Address - MAIN FOCAL POINT -->
+      <div class="bg-gray-800 rounded-2xl p-8 mb-12 border-2 border-orange-500 shadow-2xl">
+        <h2 class="text-2xl font-bold text-orange-400 mb-4">CONTRACT ADDRESS</h2>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <code class="text-lg sm:text-xl font-mono text-white bg-gray-900 px-6 py-4 rounded-lg border border-gray-700 break-all">
+            {config.token.contractAddress}
+          </code>
+          <button 
+            onclick={`copyToClipboard('${config.token.contractAddress}')`}
+            class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+          >
+            Copy Address
+          </button>
+        </div>
+      </div>
+      
+      <!-- Buy CTA -->
+      <a 
+        href={config.pumpFun.buyUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-black text-2xl py-6 px-12 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl"
+      >
+        🚀 BUY ON PUMP.FUN 🚀
+      </a>
+    </div>
   </main>
+
+  <!-- Minimal Footer -->
+  <footer class="bg-gray-800 border-t border-gray-700 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center">
+        <p class="text-gray-400 text-sm mb-4 sm:mb-0">
+          © 2024 {config.token.name}. All rights reserved.
+        </p>
+        
+        <!-- Social Links -->
+        <div class="flex items-center space-x-6">
+          <a 
+            href={config.social.twitter} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-blue-400 transition-colors text-sm"
+          >
+            Twitter
+          </a>
+          <a 
+            href={config.social.telegram} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-blue-500 transition-colors text-sm"
+          >
+            Telegram
+          </a>
+          <a 
+            href={config.social.discord} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-indigo-400 transition-colors text-sm"
+          >
+            Discord
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </Layout>

@@ -1,100 +1,24 @@
 {
-  "site": {
-    "title": "PEPE COIN",
-    "description": "The most memeable memecoin in existence. Join the revolution!",
-    "url": "https://your-memecoin.com"
-  },
   "token": {
-    "name": "PEPE",
-    "symbol": "$PEPE",
-    "contractAddress": "0x1234567890123456789012345678901234567890",
-    "network": "Ethereum",
-    "totalSupply": "420,690,000,000,000"
-  },
-  "hero": {
-    "headline": "PEPE TO THE MOON! 🚀",
-    "subheadline": "The most memeable memecoin in existence",
-    "ctaText": "BUY $PEPE NOW",
-    "backgroundImage": "/images/hero-bg.jpg"
-  },
-  "tokenomics": {
-    "title": "Tokenomics",
-    "items": [
-      {
-        "label": "Total Supply",
-        "value": "420.69T",
-        "percentage": "100%"
-      },
-      {
-        "label": "Liquidity Pool",
-        "value": "210.35T",
-        "percentage": "50%"
-      },
-      {
-        "label": "Marketing",
-        "value": "84.14T",
-        "percentage": "20%"
-      },
-      {
-        "label": "Team",
-        "value": "42.07T",
-        "percentage": "10%"
-      },
-      {
-        "label": "Community",
-        "value": "84.14T",
-        "percentage": "20%"
-      }
-    ]
-  },
-  "roadmap": {
-    "title": "Roadmap",
-    "phases": [
-      {
-        "phase": "Phase 1",
-        "title": "Launch",
-        "items": [
-          "Token Creation",
-          "Website Launch",
-          "Social Media Setup",
-          "Initial Marketing"
-        ],
-        "status": "completed"
-      },
-      {
-        "phase": "Phase 2",
-        "title": "Growth",
-        "items": [
-          "DEX Listings",
-          "Community Building",
-          "Partnerships",
-          "Meme Contests"
-        ],
-        "status": "current"
-      },
-      {
-        "phase": "Phase 3",
-        "title": "Expansion",
-        "items": [
-          "CEX Listings",
-          "NFT Collection",
-          "Merchandise",
-          "Mobile App"
-        ],
-        "status": "upcoming"
-      }
-    ]
+    "name": "[TOKEN_NAME]",
+    "tagline": "[CATCHY_TAGLINE]",
+    "contractAddress": "[CONTRACT_ADDRESS]",
+    "mascotImage": "/mascot-placeholder.svg"
   },
   "social": {
-    "twitter": "https://twitter.com/pepecoin",
-    "telegram": "https://t.me/pepecoin",
-    "discord": "https://discord.gg/pepecoin",
-    "reddit": "https://reddit.com/r/pepecoin"
+    "twitter": "[TWITTER_URL]",
+    "telegram": "[TELEGRAM_URL]",
+    "discord": "[DISCORD_URL]"
   },
   "theme": {
-    "primaryColor": "#ed56ff",
-    "secondaryColor": "#f97316",
-    "backgroundColor": "#0f0f23",
-    "textColor": "#ffffff"
+    "primary": "#ff6b35",
+    "secondary": "#f7931e",
+    "accent": "#00d4ff",
+    "background": "#0a0a0a",
+    "surface": "#1a1a1a",
+    "text": "#ffffff"
+  },
+  "pumpFun": {
+    "buyUrl": "https://pump.fun/[CONTRACT_ADDRESS]"
   }
 }

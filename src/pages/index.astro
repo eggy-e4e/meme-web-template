@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Copy } from 'lucide-astro';
 import XIcon from '../components/XIcon.astro';
 import config from '../config/site.json';
 import { getColorPalette, generateCSSVariables } from '../utils/colorPalettes.js';
@@ -8,15 +7,236 @@ import { getColorPalette, generateCSSVariables } from '../utils/colorPalettes.js
 // Get the selected color palette
 const palette = getColorPalette(config.colorPalette);
 const cssVariables = generateCSSVariables(palette);
+
+// Gallery images for infinite scroll
+const galleryImages = [
+  '/gallery/meme1.svg',
+  '/gallery/meme2.svg',
+  '/gallery/meme3.svg',
+  '/mascot-placeholder.svg',
+  '/gallery/meme1.svg',
+  '/gallery/meme2.svg',
+  '/gallery/meme3.svg',
+  '/mascot-placeholder.svg'
+];
 ---
 
 <Layout title={config.token.name} description={config.token.tagline}>
   <!-- Dynamic Color Palette CSS -->
   <style set:html={cssVariables}></style>
 
-  <!-- Header -->
-  <header class="fixed top-0 w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <!-- Custom Styles -->
+  <style>
+    .glow-text {
+      text-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary), 0 0 30px var(--color-primary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: all;
+    }
+
+    .glow-text:hover {
+      text-shadow: 0 0 15px var(--color-primary), 0 0 25px var(--color-primary), 0 0 35px var(--color-primary);
+      transform: scale(1.02);
+    }
+
+    .gallery-strip {
+      overflow: hidden;
+      white-space: nowrap;
+      background: rgba(0,0,0,0.3);
+      padding: 20px 0;
+    }
+
+    .gallery-content {
+      display: inline-block;
+      animation: scroll-horizontal 30s linear infinite;
+    }
+
+    .gallery-vertical {
+      position: fixed;
+      top: 0;
+      width: 120px;
+      height: 100vh;
+      overflow: hidden;
+      background: rgba(0,0,0,0.3);
+      z-index: 1;
+    }
+
+    .gallery-vertical-content {
+      animation: scroll-vertical 25s linear infinite;
+    }
+
+    @keyframes scroll-horizontal {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes scroll-vertical {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+
+    .gallery-item {
+      width: 120px;
+      height: 120px;
+      margin: 0 10px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid var(--color-primary);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      opacity: 1;
+    }
+
+    .gallery-vertical .gallery-item {
+      width: 100px;
+      height: 100px;
+      margin: 10px auto;
+      display: block;
+    }
+
+    .hero-container {
+      margin: 0 140px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-container {
+        margin: 0 20px;
+      }
+      .gallery-vertical {
+        display: none;
+      }
+    }
+  </style>
+
+  <!-- Vertical Gallery Strips (Desktop) -->
+  <div class="gallery-vertical" style="left: 0;">
+    <div class="gallery-vertical-content">
+      {galleryImages.concat(galleryImages).map(img => (
+        <img src={img} alt="Meme" class="gallery-item" />
+      ))}
+    </div>
+  </div>
+
+  <div class="gallery-vertical" style="right: 0;">
+    <div class="gallery-vertical-content" style="animation-delay: -12s;">
+      {galleryImages.concat(galleryImages).map(img => (
+        <img src={img} alt="Meme" class="gallery-item" />
+      ))}
+    </div>
+  </div>
+
+  <!-- Main Hero Section -->
+  <main class="min-h-screen flex items-center justify-center bg-black relative">
+    <div class="hero-container text-center z-10">
+
+      <!-- Token Name with X Icon -->
+      <div class="flex items-center justify-center gap-4 mb-8">
+        <h1 class="text-6xl sm:text-8xl font-black" style="color: var(--color-primary);">
+          {config.token.name}
+        </h1>
+        <a
+          href={config.social.twitter}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:scale-110 transform"
+          style="color: var(--color-primary);"
+          aria-label="Follow on X (Twitter)"
+        >
+          <XIcon size={40} />
+        </a>
+      </div>
+
+      <!-- Tagline -->
+      <p class="text-2xl sm:text-3xl text-gray-300 mb-12 font-medium">
+        {config.token.tagline}
+      </p>
+
+      <!-- Mascot Image -->
+      <figure class="mb-12">
+        <img
+          src={config.token.mascotImage}
+          alt={`${config.token.name} mascot`}
+          width="300"
+          height="300"
+          class="w-64 h-64 sm:w-80 sm:h-80 mx-auto rounded-full object-cover shadow-2xl border-4 animate-pulse"
+          style="border-color: var(--color-primary);"
+          loading="eager"
+        />
+      </figure>
+
+      <!-- Contract Address (Glowy, Clickable) -->
+      <div class="mb-12">
+        <p class="text-lg text-gray-400 mb-4">Contract Address</p>
+        <div
+          class="glow-text text-2xl sm:text-3xl font-mono font-bold break-all"
+          style="color: var(--color-primary);"
+          onclick={`copyToClipboard('${config.token.contractAddress}')`}
+          title="Click to copy contract address"
+        >
+          {config.token.contractAddress}
+        </div>
+      </div>
+
+      <!-- Buy CTA -->
+      <a
+        href={config.pumpFun.buyUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block text-white font-black text-2xl py-6 px-12 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl"
+        style={`background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));`}
+        onmouseover={`this.style.background = 'linear-gradient(135deg, var(--color-hover), var(--color-accent))';`}
+        onmouseout={`this.style.background = 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))';`}
+      >
+        🚀 BUY ON PUMP.FUN 🚀
+      </a>
+    </div>
+  </main>
+
+  <!-- Bottom Gallery Strip (Mobile) -->
+  <div class="gallery-strip block md:hidden">
+    <div class="gallery-content">
+      {galleryImages.concat(galleryImages).map(img => (
+        <img src={img} alt="Meme" class="gallery-item inline-block" />
+      ))}
+    </div>
+  </div>
+
+  <!-- Copy to Clipboard JavaScript -->
+  <script>
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        // Create notification
+        const notification = document.createElement('div');
+        notification.textContent = '✅ Contract address copied!';
+        notification.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: var(--color-primary);
+          color: white;
+          padding: 12px 24px;
+          border-radius: 8px;
+          font-weight: bold;
+          z-index: 1000;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        `;
+
+        document.body.appendChild(notification);
+
+        // Remove notification after 2 seconds
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    }
+  </script>
+</Layout>
       <div class="flex justify-between items-center h-16">
         <!-- Logo/Mascot -->
         <div class="flex items-center space-x-3">
@@ -73,7 +293,7 @@ const cssVariables = generateCSSVariables(palette);
   </header>
 
   <!-- Hero Section -->
-  <main class="pt-16 min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+  <main class="pt-16 min-h-screen flex items-center justify-center bg-black">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <!-- Mascot Image -->
       <figure class="mb-8">
@@ -99,11 +319,11 @@ const cssVariables = generateCSSVariables(palette);
       </p>
       
       <!-- Contract Address - MAIN FOCAL POINT -->
-      <section class="bg-gray-800 rounded-2xl p-8 mb-6 border-2 shadow-2xl" style="border-color: var(--color-primary);" aria-labelledby="contract-heading">
+      <section class="bg-black rounded-2xl p-8 mb-6 border-2 shadow-2xl" style="border-color: var(--color-primary);" aria-labelledby="contract-heading">
         <h2 id="contract-heading" class="text-2xl font-bold mb-4" style="color: var(--color-primary);">CONTRACT ADDRESS</h2>
         <div class="flex items-center justify-center gap-3">
           <code
-            class="text-lg sm:text-xl font-mono text-white bg-gray-900 px-6 py-4 rounded-lg border border-gray-700 break-all flex-1 max-w-md"
+            class="text-lg sm:text-xl font-mono text-white bg-black px-6 py-4 rounded-lg border border-gray-700 break-all flex-1 max-w-md"
             aria-label={`Contract address: ${config.token.contractAddress}`}
           >
             {config.token.contractAddress}
@@ -138,7 +358,7 @@ const cssVariables = generateCSSVariables(palette);
   </main>
 
   <!-- Minimal Footer -->
-  <footer class="bg-gray-800 border-t border-gray-700 py-4">
+  <footer class="bg-black border-t border-gray-700 py-4">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row justify-between items-center">
         <p class="text-gray-400 text-sm mb-4 sm:mb-0">
